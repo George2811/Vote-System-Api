@@ -13,9 +13,6 @@ namespace VotingSistem.Services.Algorithms
 {
     public class DesEncryption
     {
-        // MULTIPART = SUBIDA DE LOS ARCHIVOS
-        // VOTANTE = CODIGO, NOMBRE
-        // 13467982
         private string key = "a#cd1234";
 
         public string encrypt(string plaintext)

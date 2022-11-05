@@ -23,10 +23,10 @@ namespace VotingSistem.Persistence.Repositories
 
         public async Task<int> CountByChoise(string choise)
         {
-            //var text = Encoding.UTF8.GetBytes(choise);
             IEnumerable<Vote> votes = await _context.Votes
                 .Where(vo => vo.Choise == choise)
                 .ToListAsync();
+
             return votes.Count();
         }
 
