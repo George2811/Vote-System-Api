@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VotingSistem.Domain.Models;
@@ -25,6 +28,7 @@ namespace VotingSistem.Controllers
             _mapper = mapper;
         }
 
+        /************************ List All Votes ************************/
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<VoteResource>), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
@@ -35,6 +39,7 @@ namespace VotingSistem.Controllers
             return resources;
         }
 
+        /************************ Count Votes By Choise ************************/
         [HttpGet("counter")]
         [ProducesResponseType(typeof(int), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
@@ -44,6 +49,7 @@ namespace VotingSistem.Controllers
             return votes;
         }
 
+        /************************ Save Vote ************************/
         [HttpPost]
         [ProducesResponseType(typeof(VoteResource), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
@@ -62,5 +68,6 @@ namespace VotingSistem.Controllers
             var voteResource = _mapper.Map<Vote, VoteResource>(result.Resource);
             return Ok(voteResource);
         }
+
     }
 }

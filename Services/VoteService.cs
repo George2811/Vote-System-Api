@@ -16,12 +16,16 @@ namespace VotingSistem.Services
         private readonly IVoteRepository _voteRepository;
         private readonly IUnitOfWork _unitOfWork;
         private DesEncryption _desEncryption;
+        private RsaEncryption _rsaEncryption;
+        private HybridEncryption _hybridEncryption;
 
         public VoteService(IVoteRepository voteRepository, IUnitOfWork unitOfWork)
         {
             _voteRepository = voteRepository;
             _unitOfWork = unitOfWork;
             _desEncryption = new DesEncryption();
+            _rsaEncryption = new RsaEncryption();
+            _hybridEncryption = new HybridEncryption();
         }
 
         public async Task<IEnumerable<Vote>> ListAsync()
@@ -33,8 +37,10 @@ namespace VotingSistem.Services
                 Vote new_vote = new Vote();
 
                 new_vote.VoteId = el.VoteId;
-                new_vote.Image = _desEncryption.decrypt(el.Image);
-                new_vote.Choise = _desEncryption.decrypt(el.Choise);
+               // new_vote.Image = _desEncryption.decrypt(el.Image);
+               // new_vote.Choise = _desEncryption.decrypt(el.Choise);
+                new_vote.Image = _hybridEncryption.Decrypt(el.Image);
+                new_vote.Choise = _hybridEncryption.Decrypt(el.Choise);
                 new_vote.VotingDate = el.VotingDate;
 
                 votes.Add(new_vote);
@@ -45,8 +51,11 @@ namespace VotingSistem.Services
         public async Task<VoteResponse> SaveAsync(Vote _vote)
         {
             Vote newVote = new Vote();
-            newVote.Image = _desEncryption.encrypt(_vote.Image);
-            newVote.Choise = _desEncryption.encrypt(_vote.Choise.ToLower());
+            //newVote.Image = _desEncryption.encrypt(_vote.Image);
+           // newVote.Choise = _desEncryption.encrypt(_vote.Choise.ToLower());
+
+            newVote.Image = _hybridEncryption.Encrypt(_vote.Image);
+            newVote.Choise = _hybridEncryption.Encrypt(_vote.Choise.ToLower());
             newVote.VotingDate = _vote.VotingDate;
 
             try
@@ -66,7 +75,8 @@ namespace VotingSistem.Services
 
         public async Task<int> VoteCounterAsync(string choise)
         {
-            return await _voteRepository.CountByChoise(_desEncryption.encrypt(choise.ToLower()));
+            return await _voteRepository.CountByChoise(_hybridEncryption.Encrypt(choise.ToLower()));
         }
+
     }
 }

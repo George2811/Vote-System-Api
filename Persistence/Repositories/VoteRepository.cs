@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using VotingSistem.Domain.Models;
 using VotingSistem.Domain.Persistence.Contexts;
@@ -22,6 +23,7 @@ namespace VotingSistem.Persistence.Repositories
 
         public async Task<int> CountByChoise(string choise)
         {
+            //var text = Encoding.UTF8.GetBytes(choise);
             IEnumerable<Vote> votes = await _context.Votes
                 .Where(vo => vo.Choise == choise)
                 .ToListAsync();

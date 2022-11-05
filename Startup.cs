@@ -46,8 +46,10 @@ namespace VotingSistem
 
             // Dependency Injection Configuration
             services.AddScoped<IVoteRepository, VoteRepository>();
+            services.AddScoped<IVoterRepository, VoterRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IVoteService, VoteService>();
+            services.AddScoped<IVoterService, VoterService>();
 
 
             services.AddRouting(options => options.LowercaseUrls = true);
